@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pocke_app/models/pokemon.dart';
 import 'package:pocke_app/services/pokemon_service.dart';
+import 'package:pocke_app/utils/pokemon_detail_info.dart';
+import 'package:pocke_app/utils/pokemon_item.dart';
 
 class PokemonDetail extends StatefulWidget {
   final int id;
@@ -36,8 +38,8 @@ class _PokemonDetailState extends State<PokemonDetail> {
       child: Scaffold(
         appBar: AppBar(),
         body: pokemonInfo==null?
-        const Center(child: CircularProgressIndicator()):
-        Text(pokemonInfo!.name),
+        const Center(child: CircularProgressIndicator())
+            :PokemonDetailInfo(pokemonInfo: pokemonInfo!,)
       ),
     );
   }

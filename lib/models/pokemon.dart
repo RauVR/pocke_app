@@ -15,13 +15,15 @@ class PokemonInfo{
   int height;
   List types;
   List stats;
+  String urlImage;
 
   PokemonInfo({
     required this.name,
     required this.weight,
     required this.height,
     required this.types,
-    required this.stats
+    required this.stats,
+    required this.urlImage,
   });
 
   PokemonInfo.fromJson(Map<String, dynamic> json):
@@ -29,7 +31,8 @@ class PokemonInfo{
         height=json["height"],
         weight=json["weight"],
         types=json["types"].map((map)=>map["type"]["name"]).toList(),
-        stats=json["stats"].map((map)=>Stat.fromJson(map)).toList();
+        stats=json["stats"].map((map)=>Stat.fromJson(map)).toList(),
+        urlImage=json["sprites"]["other"]["home"]["front_default"];
 }
 
 class Stat{
