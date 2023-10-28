@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocke_app/screens/pokemon_detail.dart';
 
 import '../models/pokemon.dart';
 
@@ -26,29 +27,38 @@ class _PokemonItemState extends State<PokemonItem> {
   Widget build(BuildContext context) {
 
     image= NetworkImage("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${widget.index+1}.png");
-    return Card(
-      color: Colors.green,
-      elevation: 2.0,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(
+            builder: (context) => PokemonDetail(id:widget.index+1),
+        )
+        );
+      },
+      child: Card(
+        color: Colors.green,
+        elevation: 2.0,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
 
-            Row(
-              children: [
-                Image(image: image),
-                Text(widget.pokemon.name,style: TextStyle(fontSize: 18)),
-              ],
-            ),
+              Row(
+                children: [
+                  Image(image: image),
+                  Text(widget.pokemon.name,style: const TextStyle(fontSize: 18)),
+                ],
+              ),
 
-            IconButton(
-                onPressed: () { setState(() {
-                  isFavorite = !isFavorite;
-                }); },
-                icon: Icon(Icons.favorite, color: isFavorite?Colors.red:Colors.black45,)
-            ),
-          ],
+              IconButton(
+                  onPressed: () { setState(() {
+                    isFavorite = !isFavorite;
+                  }); },
+                  icon: Icon(Icons.favorite, color: isFavorite?Colors.red:Colors.black45,)
+              ),
+            ],
+          ),
         ),
       ),
     );

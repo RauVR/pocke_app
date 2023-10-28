@@ -13,11 +13,17 @@ class PokemonList extends StatefulWidget {
 class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: (widget.pokemons==null)? 0: widget.pokemons?.length,
-        itemBuilder: (context, index) {
-          return PokemonItem(pokemon: widget.pokemons?[index],index: index,);
+
+    return widget.pokemons==null
+        ?const Center(child: CircularProgressIndicator(),)
+        :ListView.builder(
+          itemCount: (widget.pokemons==null)? 0: widget.pokemons?.length,
+          itemBuilder: (context, index) {
+            return PokemonItem(pokemon: widget.pokemons?[index],index: index,);
         },
     );
   }
 }
+
+
+
