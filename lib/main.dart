@@ -34,12 +34,12 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           body: Center(
-            child: PokemonList(pokemons: pokemons)// le aseguro que no sera nulo
+            child: PokemonList()// le aseguro que no sera nulo
           ),
         ),
       ),

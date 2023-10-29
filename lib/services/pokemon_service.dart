@@ -18,7 +18,7 @@ class PokemonService {
     return [];
   }
 
-  Future<PokemonInfo?> getPokemonById(int id) async {
+  Future<PokemonInfo?> getPokemonById(String id) async {
 
     http.Response response = await http.get(Uri.parse("$baseUrl$id"));
     final PokemonInfo? pokemonInfo;

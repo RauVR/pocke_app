@@ -1,11 +1,17 @@
+import 'package:pocke_app/utils/functions.dart';
+
 class Pokemon{
 
-  String name;
+  final String name;
+  final String id;
 
-  Pokemon({required this.name});
+  Pokemon({required this.name, required this.id});
 
-  Pokemon.fromJson(Map<String, dynamic> json): name=json["name"];
-  // De aqui se convierte los datos de la api a formato Json para poder
+  Pokemon.fromJson(Map<String, dynamic> json)
+      : name=json["name"],
+        id=getId(json["url"]);
+
+// De aqui se convierte los datos de la api a formato Json para poder
   // asignarlo a la instancia de Pokemon
 }
 
@@ -13,9 +19,9 @@ class PokemonInfo{
   String name;
   int weight;
   int height;
-  List types;
-  List stats;
-  String urlImage;
+  List<String> types;
+  List<Stat> stats;
+  //String urlImage;
 
   PokemonInfo({
     required this.name,
@@ -23,16 +29,18 @@ class PokemonInfo{
     required this.height,
     required this.types,
     required this.stats,
-    required this.urlImage,
+    //required this.urlImage,
   });
 
   PokemonInfo.fromJson(Map<String, dynamic> json):
         name= json["name"],
         height=json["height"],
         weight=json["weight"],
-        types=json["types"].map((map)=>map["type"]["name"]).toList(),
-        stats=json["stats"].map((map)=>Stat.fromJson(map)).toList(),
-        urlImage=json["sprites"]["other"]["home"]["front_default"];
+        //types=json["types"].map((map)=>map["type"]["name"]).toList(),
+        types=json["types"].map<String>((type)=>type["type"]["name"].toString()).toList(),
+        //stats=json["stats"].map((map)=>Stat.fromJson(map)).toList();
+        stats=json["stats"].map<Stat>((stat)=>Stat.fromJson(stat)).toList().cast<Stat>();
+        //urlImage=json["sprites"]["other"]["home"]["front_default"];
 }
 
 class Stat{
