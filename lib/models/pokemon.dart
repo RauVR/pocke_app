@@ -11,6 +11,12 @@ class Pokemon{
       : name=json["name"],
         id=getId(json["url"]);
 
+  Map<String,dynamic> toMap(){
+    return{
+      'id': id,
+    };
+  }
+
 // De aqui se convierte los datos de la api a formato Json para poder
   // asignarlo a la instancia de Pokemon
 }

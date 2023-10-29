@@ -43,23 +43,40 @@ class _PokemonDetailState extends State<PokemonDetail> {
       appBar: AppBar(
         title: Text(_pokemonInfo?.name??""),
       ),
+
       body: Column(
+
         children: [
-          Image(image: image,height: 250),
+          const SizedBox(height: 30,),
+          Container(
+
+            decoration: BoxDecoration(
+              color: Colors.grey[400],
+              borderRadius: BorderRadius.circular(20)
+            ),
+            child: Image(image: image,height: 250),
+
+          ),
+          const SizedBox(height: 30,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: _pokemonInfo?.types.map((e) => Container(
               decoration: BoxDecoration(
-                color: Colors.green[200],
+                color: Colors.pink,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(e),
+                child: Text(
+                    e,
+                    style: const TextStyle(color: Colors.white,fontSize: 20),
+
+                ),
               ),
             ))
             .toList()??
           []),
+          const SizedBox(height: 30,),
           Column(
             children: _pokemonInfo?.stats.map((e) => Text(e.name)).toList()??[],
           )
