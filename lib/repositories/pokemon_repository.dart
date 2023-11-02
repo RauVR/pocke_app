@@ -23,6 +23,13 @@ class PokemonRepository{
         whereArgs: [pokemon.id]);
     return maps.isNotEmpty;
   }
+
+  Future<List<Pokemon>> getAll() async {
+    Database db = await PokemonDatabase().openDb();
+    final maps = await db.query(PokemonDatabase().tableName);
+    return maps.map((e) => Pokemon.fromMap(e)).toList();
+    // Creamos un pokemon desde los mapas recuperados
+  }
   
   
   

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocke_app/repositories/pokemon_repository.dart';
 import 'package:pocke_app/screens/pokemon_detail.dart';
 import 'package:pocke_app/services/pokemon_service.dart';
 import 'package:pocke_app/utils/pokemon_item.dart';
@@ -28,30 +29,19 @@ class _PokemonListState extends State<PokemonList> {
   }
 
   initialize() async {
-    _pokemons=await _pokemonService?.getAllPokemons();
+    _pokemons=await _pokemonService?.getAllPokemons(0,100);
     setState(() {
       _pokemons=_pokemons;
     });
   }
 
-
-
+  
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: _pokemons?.length??0,
         itemBuilder: (context, index) => PokemonItem(pokemon: _pokemons?[index]),
     );
-
-/*    return widget.pokemons==null
-        ?const Center(child: CircularProgressIndicator(),)
-        :ListView.builder(
-          itemCount: (widget.pokemons==null)? 0: widget.pokemons?.length,
-          itemBuilder: (context, index) {
-            return PokemonItem(pokemon: widget.pokemons?[index],index: index,);
-            },
-    );*/
-
   }
 }
 
@@ -69,13 +59,25 @@ class PokemonItem extends StatefulWidget {
 
 class _PokemonItemState extends State<PokemonItem> {
   //late NetworkImage image;
-  late bool isFavorite;
+  bool isFavorite=false;
 
   @override
   void initState() {
-    isFavorite=false;
+    initialize();
+    //isFavorite=false;
     super.initState();
   }
+  
+  initialize() async {
+    isFavorite = await PokemonRepository().isFavorite(widget.pokemon!);
+
+    if(mounted){ //cuando la vista esta montada recien puedo dar a favoritos
+      setState(() {
+        isFavorite=isFavorite;
+      });
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class _PokemonItemState extends State<PokemonItem> {
       onTap: () =>
           Navigator.push(context, MaterialPageRoute(builder: (context) => PokemonDetail(id:pokemon?.id?? "1"),)),
       child: Card(
-        color: Colors.green,
+        color: Colors.white,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.only(right: 20),
@@ -106,9 +108,11 @@ class _PokemonItemState extends State<PokemonItem> {
               ),
 
               IconButton(
-                onPressed: () { setState(() {
-                  isFavorite = !isFavorite;
-                }); },
+                onPressed: () { setState(() {isFavorite = !isFavorite;});
+                  isFavorite
+                      ? PokemonRepository().insert(pokemon!)
+                      : PokemonRepository().delete(pokemon!);
+                  },
                 icon: icon,
               ),
             ],
