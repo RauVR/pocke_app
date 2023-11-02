@@ -58,24 +58,23 @@ class _PokemonDetailState extends State<PokemonDetail> {
 
           ),
           const SizedBox(height: 30,),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: _pokemonInfo?.types.map((e) => Container(
-              decoration: BoxDecoration(
-                color: Colors.pink,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                    e,
-                    style: const TextStyle(color: Colors.white,fontSize: 20),
+            children: _pokemonInfo?.types
+                .map(
+                    (e) => Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(e,style: const TextStyle(color: Colors.white,fontSize: 20),),
+                      ),
+                    ))
+                .toList()??[]),
 
-                ),
-              ),
-            ))
-            .toList()??
-          []),
           const SizedBox(height: 30,),
           Column(
             children: _pokemonInfo?.stats.map((e) => Text(e.name)).toList()??[],

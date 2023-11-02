@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pocke_app/repositories/pokemon_repository.dart';
 import 'package:pocke_app/screens/pokemon_detail.dart';
 import 'package:pocke_app/services/pokemon_service.dart';
@@ -18,32 +19,76 @@ class PokemonList extends StatefulWidget {
 
 class _PokemonListState extends State<PokemonList> {
 
-  List? _pokemons;
+  //List<Pokemon>? _pokemons;
   PokemonService? _pokemonService;
+  final _pageSize = 20;
+
+
+  final PagingController<int, Pokemon> _pagingController =
+  PagingController(firstPageKey: 0);
 
   @override
   void initState() {
     _pokemonService=PokemonService();
-    initialize();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    //initialize();
     super.initState();
   }
 
-  initialize() async {
-    _pokemons=await _pokemonService?.getAllPokemons(0,100);
+  Future _fetchPage(int pageKey) async {
+    try {
+      final pokemons = await _pokemonService?.getAllPokemons(pageKey, _pageSize)??[];
+      final isLastPage = pokemons.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(pokemons);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(pokemons, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+    // setState(() {
+    //   _pokemons=_pokemons;
+    // });
+  }
+
+/*  Future initialize() async {
+    _pokemons=await _pokemonService?.getAllPokemons(0,PokemonList._pageSize);
     setState(() {
       _pokemons=_pokemons;
     });
-  }
+  }*/
 
   
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return PagedListView<int, Pokemon>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Pokemon>(
+        itemBuilder: (context, item, index) => PokemonItem(
+          pokemon: item,
+        ),
+      ),
+    );
+
+    /*ListView.builder(
         itemCount: _pokemons?.length??0,
         itemBuilder: (context, index) => PokemonItem(pokemon: _pokemons?[index]),
-    );
+    );*/
   }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
 }
+
+
 
 
 
