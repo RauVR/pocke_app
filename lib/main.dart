@@ -18,20 +18,6 @@ class _MainAppState extends State<MainApp> {
   PokemonService? service;
   List? pokemons; //variable puede ser nula
 
-  // @override
-  // void initState() {
-  //   service=PokemonService();
-  //   initialize();
-  //   super.initState();
-  // }
-  //
-  // initialize() async {
-  //   //pokemons = await service?.getAllPokemons(0,20);
-  //   setState(() {
-  //     //pokemons = pokemons;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
 

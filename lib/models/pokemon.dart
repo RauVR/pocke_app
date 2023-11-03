@@ -5,7 +5,7 @@ class Pokemon{
   final String name;
   final String id;
 
-  Pokemon({required this.name, required this.id});
+  const Pokemon({required this.name, required this.id});
 
   Pokemon.fromJson(Map<String, dynamic> json)
       : name=json["name"],
@@ -27,17 +27,17 @@ class Pokemon{
 }
 
 class PokemonInfo{
-  String name;
-  int weight;
-  int height;
-  List<String> types;
-  List<Stat> stats;
+  final String name;
+  final int height;
+  final int weight;
+  final List<String> types;
+  final List<Stat> stats;
   //String urlImage;
 
   PokemonInfo({
     required this.name,
-    required this.weight,
     required this.height,
+    required this.weight,
     required this.types,
     required this.stats,
     //required this.urlImage,

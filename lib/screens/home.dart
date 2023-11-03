@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocke_app/screens/about_me.dart';
 import 'package:pocke_app/screens/favorites_list.dart';
 import 'package:pocke_app/screens/pokemon_list.dart';
 
@@ -15,9 +16,10 @@ class _HomeState extends State<Home> {
   final List<Widget> _children=[
     const PokemonList(),
     const FavoritesList(),
+    const AboutMe(),
   ];
 
-  _changeTab(int index){
+  void _changeTab(int index){
     setState(() {
       _selectedTab=index;
     });
@@ -32,12 +34,13 @@ class _HomeState extends State<Home> {
       body: _children[_selectedTab],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
-        onTap: (index) => _changeTab(index),
+        onTap: _changeTab,
         selectedItemColor: Colors.red,
           unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorites"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "About Me"),
         ],
       ),
     );

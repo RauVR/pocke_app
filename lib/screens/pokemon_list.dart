@@ -40,6 +40,8 @@ class _PokemonListState extends State<PokemonList> {
   Future _fetchPage(int pageKey) async {
     try {
       final pokemons = await _pokemonService?.getAllPokemons(pageKey, _pageSize)??[];
+      // Aqui consulta al api atravez del service para jalar todos los pokemones
+
       final isLastPage = pokemons.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(pokemons);
@@ -90,7 +92,7 @@ class _PokemonListState extends State<PokemonList> {
 
 
 
-
+// ------------------------------------------------------------
 
 class PokemonItem extends StatefulWidget {
   final Pokemon? pokemon;
@@ -101,6 +103,8 @@ class PokemonItem extends StatefulWidget {
   @override
   State<PokemonItem> createState() => _PokemonItemState();
 }
+
+
 
 class _PokemonItemState extends State<PokemonItem> {
   //late NetworkImage image;
@@ -147,6 +151,10 @@ class _PokemonItemState extends State<PokemonItem> {
 
               Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 15),
+                    child: Text(widget.pokemon?.id??"",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                  ),
                   Image(image: image),
                   Text(widget.pokemon?.name??"",style: const TextStyle(fontSize: 18)),
                 ],

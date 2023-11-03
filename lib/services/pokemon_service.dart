@@ -14,8 +14,9 @@ class PokemonService {
     if(response.statusCode==HttpStatus.ok){
       final jsonResponse=json.decode(response.body);
       log(response.body);
-      final pokemonsMap = jsonResponse["results"];
-      return pokemonsMap.map((map)=>Pokemon.fromJson(map)).toList();
+      final List maps = jsonResponse["results"];
+      final pokemons =  maps.map((map)=>Pokemon.fromJson(map)).toList();
+      return pokemons;
     }
     return [];
   }
